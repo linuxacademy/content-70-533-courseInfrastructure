@@ -4,7 +4,7 @@ $containerName = "dscfiles70533"
 $destinationUri = "https://$($Env:mycontainer_uri)/$containerName"
 $destinationKey = $Env:STORAGE_KEY
 
-D:\devtools\AzCopy\AzCopy.exe /Source: .\DSCFiles /Dest: $destinationUri /DestKey: $destinationUri /SetContentType /S /Y
+D:\devtools\AzCopy\AzCopy.exe /Source:.\DSCFiles /Dest:$destinationUri /DestKey:$destinationKey /SetContentType /S /Y
 if ($LastExitCode -ne 0) { throw "azcopy returned code $($LastExitCode)" }
 
 $storageContext = New-AzureStorageContext -ConnectionString $Env:AzureWebJobsStorage -ErrorAction Stop
