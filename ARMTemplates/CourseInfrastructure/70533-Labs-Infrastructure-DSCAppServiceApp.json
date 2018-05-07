@@ -97,6 +97,18 @@
             "branch": "[parameters('branch')]",
             "IsManualIntegration": true
           }
+        },
+        {
+          "apiVersion": "2016-08-01",
+          "name": "string",
+          "type": "virtualNetworkConnections",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
+          ],
+          "properties": {
+            "vnetResourceId": "[resourceId('Microsoft.Network/virtualNetworks', 'LaToysAzureNetwork')]",
+            "dnsServers": "8.8.8.8,8.8.4.4"
+          }
         }
       ]
     }
