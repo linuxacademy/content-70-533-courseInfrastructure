@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "DNSServerAddress": {
+            "type": "array",
+            "metadata": {
+                "Description": "The DNS address(es) of the DNS Server(s) used by the VNET"
+            },
+            "defaultValue": ["8.8.8.8", "8.8.4.4"]
+        }
+    },
+    "variables": {
+        "virtualNetworkName": "LAToysOnPremNetwork",
+        "virtualNetworkAddressSpace": "10.100.0.0/16",
+        "subnet1Name": "LA-Toys-MainOffice",
+        "subnet1Ref": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnet1Name'))]",
+        "subnet1AddressPrefix": "10.100.0.0/24"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('virtualNetworkName')]",
+            "apiVersion": "2017-06-01",
+            "location": "[resourceGroup().location]",
+            "comments": "This will build a Virtual Network.",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('virtualNetworkAddressSpace')]"
+                    ]
+                },
+                "dhcpOptions": {
+                    "dnsServers": "[parameters('DNSServerAddress')]"
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('subnet1AddressPrefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+    ],
+    "outputs": {}
+}
